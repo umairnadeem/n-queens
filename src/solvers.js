@@ -16,7 +16,7 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; 
+  var solution = new Board({n: n});
 
   // I: n (size of matrix)
   // O: a matrix solution
@@ -25,24 +25,26 @@ window.findNRooksSolution = function(n) {
 
   // Only lay n pieces
 
-  // Start with base
-  // Add next piece at every possible location
-  // Check hasAnyRookConflicts 
-  // If it does, move to next one
-  // If it doesn't, solution = board
+  // Create a board
+  // for loop, starts at 0, until n - 1
+  // solution.togglePiece(i,i)
   // return solution
 
+  for (let i  = 0; i < n; i++) {
+    solution.togglePiece(i,i);
+  }
+
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution;
+  return solution.rows;
 };
 
-// return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = undefined; //fixme
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
+// return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
