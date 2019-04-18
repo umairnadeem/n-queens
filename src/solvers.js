@@ -16,7 +16,21 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution = undefined; 
+
+  // I: n (size of matrix)
+  // O: a matrix solution
+  // C: 
+  // E: n = 1
+
+  // Only lay n pieces
+
+  // Start with base
+  // Add next piece at every possible location
+  // Check hasAnyRookConflicts 
+  // If it does, move to next one
+  // If it doesn't, solution = board
+  // return solution
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;

@@ -79,12 +79,40 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      //input: index of the row we need to preform a function on
+      //output: boolean, true or false whether there is a conflict or not
+      //constaints: input number needs to be within the bounds of the input matrix
+      //edgecase: if our matrix is empty
+      //check the specifcied row
+      return this.rows()[rowIndex].reduce((accumulator, element) => accumulator + element) > 1;
+      //add all of the values in the row
+      //check if the sum is > than 1
+      //if it is > 1 return true, otherwise return false
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      // go through all rows
+
+      // I: nothing
+      // O: boolean, T/F (true if any row has conflict, false otherwise)
+      // C: nothing
+      // E: empty matrix
+
+      // check each row separately
+      // if sum of that row > 1, return false
+      // after checking all rows, return false at the very end
+
+      var board = this.rows();
+      var conflict = false;
+
+      for (var i = 0; i < board.length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          conflict = true;
+        }
+      }
+
+      return conflict;
     },
 
 
@@ -94,12 +122,40 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // I: colIndex
+      // O: boolean, T/F (true if any column has conflict, false otherwise)
+      // C: outside of the bounds of colIndex
+      // E: empty matrix
+      //check colIndex at every row
+      //add all of the numbers in our specified column in every row
+      //if the sum is > 1, return true, otherwise return false
+      return this.rows().reduce((accumulator, element) => accumulator + element[colIndex], 0) > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // go through all cols
+
+      // I: nothing
+      // O: boolean, T/F (true if any col has conflict, false otherwise)
+      // C: nothing
+      // E: empty matrix
+
+      // check each col separately
+      // if sum of that col > 1, return true
+      // after checking all cols, return false at the very end
+
+      var board = this.rows();
+      var conflict = false;
+
+      for (var i = 0; i < board.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          conflict = true;
+        }
+      }
+
+      return conflict;
+
     },
 
 
@@ -109,12 +165,46 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+     // I: the column index of the diagonal at the first row
+     // O: boolean determining whether or not there is a conflict
+     // C: the input has to be within the bounds of the matrix
+     // E: if the matrix is empty
+     //go through each diaganol element in the matrix
+     //add up all of the values in that diaganol line
+     //if the sum is > 1, return true, otherwise return false
+     //call the reduce method on the matrix
+     return this.rows().reduce((accumulator, element, index) => {
+       if (element[index + majorDiagonalColumnIndexAtFirstRow]) {
+       return accumulator + element[index + majorDiagonalColumnIndexAtFirstRow];
+      } else {
+        return accumulator;
+      }}, 0) > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      // I: nothing
+      // O: boolean, T/F, determine whether there's any major diagonal conflict
+      // C: none
+      // E: if matrix is empty
+
+      // Create a length of board using .get
+      // Create a conflict variable, set to false
+      // iterate over each major diagonal line
+      // If there's a conflict, set conflict to true, otherwise return false
+
+      // debugger;
+      var length = this.get('n') - 1;
+      var conflict = false;
+
+      for (let index = -1*length; index < length; index++) {
+        if(this.hasMajorDiagonalConflictAt(index)) {
+          conflict = true;
+        }
+      }
+
+      return conflict;
+      
     },
 
 
@@ -124,12 +214,26 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      return this.rows().reduce((accumulator, element, index) => {
+        if (element[minorDiagonalColumnIndexAtFirstRow - index]) {
+        return accumulator + element[minorDiagonalColumnIndexAtFirstRow - index];
+       } else {
+         return accumulator;
+       }}, 0) > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var length = this.get('n') - 1;
+      var conflict = false;
+
+      for (let index = 2*length; index > 0; index--) {
+        if(this.hasMinorDiagonalConflictAt(index)) {
+          conflict = true;
+        }
+      }
+
+      return conflict;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
