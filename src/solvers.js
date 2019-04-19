@@ -13,31 +13,6 @@
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
-
-    // e.g. 3x3
-  // Create a board
-  // **** 1st 
-  // 1. Place 1st piece at 0,0
-    // Conflicts? No. Go down further to 2nd piece
-      // ***** 2nd
-      // 2. Place 2nd piece at 1th place
-        // Conflicts? Yes. Put at next place
-      // 3. Place 2nd piece at 2nd place
-        // Conflicts? Yes. Put at next place
-      //...
-      // 4. Place 2nd piece at 4th place
-        // Conflicts? No. Go down further to 3rd piece
-          // ***** 3rd
-          // Place at 6th. 
-            // Conflicts? Yes. Put at next place
-          //...
-          // Place at 9th.
-            // Conflicts? No. Don't go deeper since number of pieces placed = n. Increase number of solutions
-      // *** 2nd (Back-track)
-        // Haven't toggled piece at (n-1)th place, so keep continuing loop
-
-
-
 window.findNRooksSolution = function(n) {
   var solution = new Board({n: n});
 
@@ -57,13 +32,23 @@ window.findNRooksSolution = function(n) {
 };
 
 window.countNRooksSolutions = function(n) {
-  var solutionCount = 0; 
+// I: a board
+// O: an updated board with another non-conflictingly placed rook
 
-  // create a n x n board
+// in every iteration:
+// Toggle a piece at next available position
+// check if has any rook conflicts
+  // If so, move on, place piece in next available position
+  // Else, check if amount of pieces layed = n
+    // If so, and doesn't have any rook conflicts, solutions++
+    // else, go deeper (recursive call on updated board)
+
+  var solutionCount = 0;
   var solutionBoard = new Board({n :n});
-  // solutionBoard.togglePiece(2,2);
   
-  // helper function: numberOfPieces(board)
+  /*
+  ***Helper Functions***
+  */
   function numberOfPieces(board) {
     var testBoard = board.rows();
     return testBoard.reduce((accum, row) => accum + row.reduce((innerAccum, col) => innerAccum + col), 0);
@@ -84,11 +69,9 @@ window.countNRooksSolutions = function(n) {
     return postion % n;
   }
 
-  // console.log(nextAvailablePosition(solutionBoard));
-      // helper function: placeRook(board)
-        // I: a board
-        // O: an updated board with another non-conflictingly placed rook
-        
+  /*
+  ***Recursive Function***
+  */      
   function placeRook (board) {
     var freePositions = n * n - nextAvailablePosition(board);
     for (var i = 0; i < freePositions; i++) {
@@ -110,25 +93,9 @@ window.countNRooksSolutions = function(n) {
       }
     }
   }
-
-    // console.log(placeRook(solutionBoard));
-      // in every iteration:
-        // Toggle a piece at next available position
-        // check if has any rook conflicts
-          // If so, move on, place piece in next available position
-          // Else, check if amount of pieces layed = n
-            // If so, and doesn't have any rook conflicts, solutions++
-            // else, go deeper (recursive call on updated board)
-    
-      // number of iterations at each level: empty spaces + 1
-
-   placeRook(solutionBoard);   
-        
-        
-
+  
+  placeRook(solutionBoard);   
   return solutionCount;
-  // console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  // return solutionCount;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
