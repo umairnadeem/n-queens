@@ -57,8 +57,8 @@ window.countNRooksSolutions = function(n) {
   function nextAvailablePosition(board, index = 0) {
     var testBoard = board.rows();
     return testBoard
-    .reduce((accumlator, row) => accumlator.concat(row))
-    .lastIndexOf(1) + 1 + index;
+          .reduce((accumlator, row) => accumlator.concat(row))
+          .lastIndexOf(1) + 1 + index;
   }
 
   function row(postion) {
@@ -74,16 +74,17 @@ window.countNRooksSolutions = function(n) {
   */      
   function placeRook (board) {
     var freePositions = n * n - nextAvailablePosition(board);
-    for (var i = 0; i < freePositions; i++) {
-      
-      var storedRow = row(nextAvailablePosition(board, i));
-      var storedCol = col(nextAvailablePosition(board, i));
+    var storedRow, storedCol = 0;
+
+    for (let i = 0; i < freePositions; i++) {
+      storedRow = row(nextAvailablePosition(board, i));
+      storedCol = col(nextAvailablePosition(board, i));
       board.togglePiece(storedRow, storedCol);
       if (!board.hasAnyRooksConflicts()) {
         if (numberOfPieces(board) === n) {
-        solutionCount++;
-        board.togglePiece(storedRow, storedCol);
-        return;
+          solutionCount++;
+          board.togglePiece(storedRow, storedCol);
+          return;
         } else {
           placeRook(board);
           board.togglePiece(storedRow, storedCol);
@@ -93,7 +94,7 @@ window.countNRooksSolutions = function(n) {
       }
     }
   }
-  
+
   placeRook(solutionBoard);   
   return solutionCount;
 };
