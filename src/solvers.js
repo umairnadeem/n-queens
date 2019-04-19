@@ -40,7 +40,6 @@
 
 window.findNRooksSolution = function(n) {
   var solution = new Board({n: n});
-  var solutionCount = 0;
 
   // I: n (size of matrix)
   // O: a matrix solution
@@ -58,7 +57,6 @@ window.findNRooksSolution = function(n) {
 };
 
 window.countNRooksSolutions = function(n) {
-  debugger;
   var solutionCount = 0; 
 
   // create a n x n board
@@ -92,10 +90,9 @@ window.countNRooksSolutions = function(n) {
         // O: an updated board with another non-conflictingly placed rook
         
   function placeRook (board) {
-    
     var freePositions = n * n - nextAvailablePosition(board);
     for (var i = 0; i < freePositions; i++) {
-      debugger;
+      
       var storedRow = row(nextAvailablePosition(board, i));
       var storedCol = col(nextAvailablePosition(board, i));
       board.togglePiece(storedRow, storedCol);
@@ -103,6 +100,7 @@ window.countNRooksSolutions = function(n) {
         if (numberOfPieces(board) === n) {
         solutionCount++;
         board.togglePiece(storedRow, storedCol);
+        return;
         } else {
           placeRook(board);
           board.togglePiece(storedRow, storedCol);
@@ -111,9 +109,6 @@ window.countNRooksSolutions = function(n) {
         board.togglePiece(storedRow, storedCol);
       }
     }
-
-    return board.rows();
-
   }
 
     // console.log(placeRook(solutionBoard));
